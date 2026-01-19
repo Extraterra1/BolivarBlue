@@ -1,14 +1,18 @@
 import { useState, useEffect } from 'react';
 import { Button, Spacer } from '@heroui/react';
-import { FaSyncAlt, FaTelegramPlane } from 'react-icons/fa';
+import { FaSyncAlt, FaTelegramPlane, FaWifi, FaBan } from 'react-icons/fa';
 import RateCard from './components/RateCard';
+import PullToRefresh from './components/PullToRefresh';
+import InstallPrompt from './components/InstallPrompt';
 import { fetchBCVRate, fetchBinanceRate } from './services/api';
+import { useOnlineStatus } from './hooks/useOnlineStatus';
 
 function App() {
   const [bcvRate, setBcvRate] = useState(null);
   const [binanceRate, setBinanceRate] = useState(null);
   const [loading, setLoading] = useState(true);
   const [lastUpdated, setLastUpdated] = useState(null);
+  const { isOnline, wasOffline } = useOnlineStatus();
 
   const fetchData = async () => {
     setLoading(true);
@@ -29,7 +33,8 @@ function App() {
   }, []);
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-black text-white selection:bg-venezuela-yellow selection:text-black">
+    <PullToRefresh onRefresh={fetchData}>
+      <div className="relative min-h-screen w-full overflow-hidden bg-black text-white selection:bg-venezuela-yellow selection:text-black">
       {/* Background Effects */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
         <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-venezuela-yellow/10 rounded-full blur-[120px]" />
@@ -38,6 +43,21 @@ function App() {
       </div>
 
       <div className="relative z-10 container mx-auto px-4 py-8 flex flex-col items-center justify-center min-h-screen">
+        {/* Offline Indicator */}
+        {!isOnline && (
+          <div className="fixed top-[max(1rem,env(safe-area-inset-top))] left-1/2 -translate-x-1/2 z-50 bg-yellow-500/95 text-black px-4 py-2 rounded-full text-sm font-bold backdrop-blur-sm shadow-lg flex items-center gap-2">
+            <FaBan className="text-xs" />
+            <span>Using cached data • Offline</span>
+          </div>
+        )}
+
+        {/* Back Online Indicator */}
+        {wasOffline && isOnline && (
+          <div className="fixed top-[max(1rem,env(safe-area-inset-top))] left-1/2 -translate-x-1/2 z-50 bg-green-500/95 text-black px-4 py-2 rounded-full text-sm font-bold backdrop-blur-sm shadow-lg flex items-center gap-2">
+            <FaWifi className="text-xs" />
+            <span>Back online</span>
+          </div>
+        )}
         {/* Header */}
         <header className="mb-12 text-center">
           <h1 className="text-5xl md:text-7xl font-black mb-2 tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-500">
@@ -108,7 +128,11 @@ function App() {
           <p>Made with ❤️ for Venezuela</p>
         </footer>
       </div>
+
+      {/* Install Prompt */}
+      <InstallPrompt />
     </div>
+    </PullToRefresh>
   );
 }
 

@@ -1,0 +1,27 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background with Venezuela flag gradient -->
+  <defs>
+    <linearGradient id="venezuelaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F7D000;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#00247D;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#CF142B;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="240" fill="#000000"/>
+  
+  <!-- Inner gradient circle -->
+  <circle cx="256" cy="256" r="220" fill="url(#venezuelaGradient)" opacity="0.15"/>
+  
+  <!-- Currency symbol with modern design -->
+  <text x="256" y="320" font-family="Arial, sans-serif" font-size="220" font-weight="bold" fill="#F7D000" text-anchor="middle">$</text>
+  
+  <!-- Small upward arrow indicating rates -->
+  <path d="M380 160 L420 120 L460 160 M420 120 L420 200" stroke="#F7D000" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Decorative dots representing exchange -->
+  <circle cx="256" cy="380" r="8" fill="#00247D"/>
+  <circle cx="280" cy="390" r="6" fill="#CF142B"/>
+  <circle cx="232" cy="390" r="6" fill="#00247D"/>
+</svg>
