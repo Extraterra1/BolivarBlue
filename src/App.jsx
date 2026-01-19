@@ -69,20 +69,38 @@ function App() {
         <Spacer y={8} />
 
         {/* Actions */}
-        <div className="flex flex-col items-center gap-4 mt-8">
+        <div className="flex flex-col items-center gap-6 mt-12">
           <Button
-            color="primary"
-            size="lg"
-            variant="shadow"
-            className="font-bold bg-gradient-to-r from-venezuela-blue to-blue-600 w-48"
             isLoading={loading}
             onPress={fetchData}
-            startContent={!loading && <FaSyncAlt />}
+            variant="bordered"
+            radius="full"
+            className={`
+              relative overflow-hidden group border-blue-500/20 bg-blue-600/10 backdrop-blur-md
+              hover:bg-white/10 hover:border-white/20 px-10 py-7 h-auto
+              transition-all duration-500 ease-out
+              ${loading ? 'opacity-80' : 'hover:shadow-[0_0_30px_rgba(59,130,246,0.3)]'}
+            `}
           >
-            {loading ? 'Refreshing...' : 'Refresh Rates'}
+            <div className="flex items-center gap-3">
+              {!loading && <FaSyncAlt className={`text-xl text-venezuela-blue transition-transform duration-700 group-hover:rotate-180`} />}
+              <span className="text-xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
+                {loading ? 'Fetching Rates...' : 'Update Market Rates'}
+              </span>
+            </div>
+
+            {/* Subtle glow effect behind */}
+            <div className="absolute inset-0 bg-gradient-to-r from-venezuela-blue/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           </Button>
 
-          {lastUpdated && <p className="text-xs text-gray-600 mt-2 font-mono">Last updated: {lastUpdated.toLocaleTimeString()}</p>}
+          {lastUpdated && (
+            <div className="flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/5 bg-white/[0.02] backdrop-blur-sm">
+              <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+              <p className="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-bold">
+                Synced at: {lastUpdated.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Footer */}
