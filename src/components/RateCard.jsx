@@ -7,7 +7,7 @@ export default function RateCard({ title, rate, provider, color, icon, trend }) 
   };
 
   return (
-    <Card className="min-w-[300px] border-none bg-gradient-to-br from-gray-900 to-black shadow-lg hover:shadow-2xl transition-all duration-300">
+    <Card className="min-w-[300px] border-none rounded-md bg-gradient-to-br from-gray-900 to-black shadow-lg hover:shadow-2xl transition-all duration-300">
       <CardHeader className="flex gap-3 px-6 pt-6 pb-4">
         <div className={`w-12 h-12 flex items-center justify-center rounded-xl bg-${color}-500/20 text-${color}-500 text-2xl`}>{icon}</div>
         <div className="flex flex-col">
