@@ -45,10 +45,11 @@ export default defineConfig({
         ]
       },
       devOptions: {
-        enabled: true
+        enabled: true,
+        suppressWarnings: true
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+        globPatterns: ['**/*.{js,css,html,png,svg,webmanifest}'],
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/bcv-api\.rafnixg\.dev\/.*/i,
