@@ -1,11 +1,10 @@
 import axios from 'axios';
 
 // Binance P2P Endpoint
-// Binance P2P Endpoint (Proxied)
-const BINANCE_API_URL = '/api/binance';
+const BINANCE_API_URL = 'https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search';
 
-// BCV API (Proxied)
-const BCV_API_URL = '/api/bcv';
+// BCV API
+const BCV_API_URL = 'https://bcv-api.rafnixg.dev/rates/';
 
 export const fetchBinanceRate = async () => {
   try {
