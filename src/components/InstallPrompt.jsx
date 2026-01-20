@@ -76,7 +76,7 @@ export default function InstallPrompt() {
                 {isIOS ? <FaApple className="text-xl text-black" /> : <FaAndroid className="text-xl text-black" />}
               </div>
               <div>
-                <h3 className="font-bold text-white">Install TasaVzla</h3>
+                <h3 className="font-bold text-white">Install BolivarBlue</h3>
                 <p className="text-xs text-gray-400">Get the native app experience</p>
               </div>
             </div>
@@ -101,9 +101,9 @@ export default function InstallPrompt() {
             </div>
           ) : (
             <div className="mb-4">
-              <p className="text-sm text-gray-300 mb-2">
-                Install TasaVzla on your device for quick access and offline support.
-              </p>
+                <p className="text-sm text-gray-300 mb-2">
+                  Install BolivarBlue on your device for quick access and offline support.
+                </p>
             </div>
           )}
 

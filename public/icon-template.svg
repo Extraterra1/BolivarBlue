@@ -1,27 +1,54 @@
 <svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background with Venezuela flag gradient -->
   <defs>
-    <linearGradient id="venezuelaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#F7D000;stop-opacity:1" />
-      <stop offset="50%" style="stop-color:#00247D;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#CF142B;stop-opacity:1" />
+    <!-- Sleek blue gradient -->
+    <linearGradient id="blueGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0066FF;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#0044CC;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#002299;stop-opacity:1" />
     </linearGradient>
+    
+    <!-- Subtle glow effect -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Inner shadow for depth -->
+    <filter id="innerShadow">
+      <feOffset dx="0" dy="2"/>
+      <feGaussianBlur stdDeviation="3" result="offset-blur"/>
+      <feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse"/>
+      <feFlood flood-color="black" flood-opacity="0.3" result="color"/>
+      <feComposite operator="in" in="color" in2="inverse" result="shadow"/>
+      <feComposite operator="over" in="shadow" in2="SourceGraphic"/>
+    </filter>
   </defs>
   
-  <!-- Background circle -->
-  <circle cx="256" cy="256" r="240" fill="#000000"/>
+  <!-- Background with rounded square -->
+  <rect x="16" y="16" width="480" height="480" rx="96" fill="#001a33"/>
   
-  <!-- Inner gradient circle -->
-  <circle cx="256" cy="256" r="220" fill="url(#venezuelaGradient)" opacity="0.15"/>
+  <!-- Sleek blue accent circle -->
+  <circle cx="256" cy="256" r="180" fill="url(#blueGradient)" opacity="0.3"/>
   
-  <!-- Currency symbol with modern design -->
-  <text x="256" y="320" font-family="Arial, sans-serif" font-size="220" font-weight="bold" fill="#F7D000" text-anchor="middle">$</text>
+  <!-- Outer ring with gradient -->
+  <circle cx="256" cy="256" r="200" fill="none" stroke="url(#blueGradient)" stroke-width="4" opacity="0.5"/>
   
-  <!-- Small upward arrow indicating rates -->
-  <path d="M380 160 L420 120 L460 160 M420 120 L420 200" stroke="#F7D000" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- "Bs" text - highly distinguishable -->
+  <text x="256" y="330" font-family="Arial, sans-serif" font-size="240" font-weight="900" fill="#FFFFFF" text-anchor="middle" filter="url(#glow)">
+    Bs
+  </text>
   
-  <!-- Decorative dots representing exchange -->
-  <circle cx="256" cy="380" r="8" fill="#00247D"/>
-  <circle cx="280" cy="390" r="6" fill="#CF142B"/>
-  <circle cx="232" cy="390" r="6" fill="#00247D"/>
+  <!-- Subtle blue accent line at bottom -->
+  <rect x="100" y="380" width="312" height="6" rx="3" fill="#0066FF" opacity="0.6"/>
+  
+  <!-- Small dots representing exchange/activity -->
+  <circle cx="180" cy="420" r="6" fill="#0066FF" opacity="0.8"/>
+  <circle cx="256" cy="420" r="6" fill="#0066FF" opacity="0.5"/>
+  <circle cx="332" cy="420" r="6" fill="#0066FF" opacity="0.8"/>
+  
+  <!-- Top accent - sleek design element -->
+  <path d="M256 60 L270 80 L256 100 L242 80 Z" fill="#0066FF" opacity="0.6"/>
 </svg>

@@ -34,12 +34,12 @@ function App() {
 
   return (
     <PullToRefresh onRefresh={fetchData}>
-      <div className="relative min-h-screen w-full overflow-hidden bg-black text-white selection:bg-venezuela-yellow selection:text-black">
+      <div className="relative min-h-screen w-full overflow-hidden bg-black text-white selection:bg-venezuela-blue selection:text-black">
       {/* Background Effects */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
-        <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-venezuela-yellow/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] bg-venezuela-blue/10 rounded-full blur-[120px]" />
-        <div className="absolute top-[40%] left-[50%] transform -translate-x-1/2 w-[300px] h-[300px] bg-venezuela-red/10 rounded-full blur-[100px]" />
+        <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[120px]" />
+        <div className="absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px]" />
+        <div className="absolute top-[40%] left-[50%] transform -translate-x-1/2 w-[300px] h-[300px] bg-blue-700/10 rounded-full blur-[100px]" />
       </div>
 
       <div className="relative z-10 container mx-auto px-4 py-8 flex flex-col items-center justify-center min-h-screen">
@@ -61,7 +61,7 @@ function App() {
         {/* Header */}
         <header className="mb-12 text-center">
           <h1 className="text-5xl md:text-7xl font-black mb-2 tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-500">
-            Tasa<span className="text-venezuela-yellow">Vzla</span>
+            Bolivar<span className="text-venezuela-blue">Blue</span>
           </h1>
           <p className="text-gray-400 text-lg max-w-md mx-auto">Real-time exchange rates for the Venezuelan Bolívar.</p>
         </header>
