@@ -83,6 +83,22 @@ export default defineConfig({
       }
     })
   ],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Core vendor libraries
+          vendor: ['react', 'react-dom'],
+          // UI component library + animation (keep together to avoid circular deps)
+          'ui-vendor': ['@heroui/react', 'framer-motion'],
+          // HTTP client and utilities
+          utils: ['axios'],
+        },
+      },
+    },
+    // Increase chunk size warning limit to reduce noise
+    chunkSizeWarningLimit: 1000,
+  },
   server: {
     proxy: {
       '/api/bcv': {

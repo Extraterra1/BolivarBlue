@@ -1,11 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { Button, Spacer } from '@heroui/react';
-import { FaSyncAlt, FaTelegramPlane, FaWifi, FaBan } from 'react-icons/fa';
+import { FaSyncAlt, FaWifi, FaBan } from 'react-icons/fa';
 import RateCard from './components/RateCard';
-import PullToRefresh from './components/PullToRefresh';
-import InstallPrompt from './components/InstallPrompt';
+import SkeletonRateCard from './components/SkeletonRateCard';
 import { fetchBCVRate, fetchBinanceRate } from './services/api';
 import { useOnlineStatus } from './hooks/useOnlineStatus';
+import { cacheRates, getCachedRates } from './utils/cache';
+
+// Lazy load non-critical components
+const PullToRefresh = lazy(() => import('./components/PullToRefresh'));
+const InstallPrompt = lazy(() => import('./components/InstallPrompt'));
 
 function App() {
   const [bcvRate, setBcvRate] = useState(null);
@@ -14,26 +18,51 @@ function App() {
   const [lastUpdated, setLastUpdated] = useState(null);
   const { isOnline, wasOffline } = useOnlineStatus();
 
-  const fetchData = async () => {
-    setLoading(true);
+  const fetchData = async (showLoading = true) => {
+    if (showLoading) setLoading(true);
     try {
       const [bcv, binance] = await Promise.all([fetchBCVRate(), fetchBinanceRate()]);
-      setBcvRate(bcv);
-      setBinanceRate(binance);
-      setLastUpdated(new Date());
+      
+      // Only update state if we got valid data
+      if (bcv !== null) setBcvRate(bcv);
+      if (binance !== null) setBinanceRate(binance);
+      
+      // Cache the rates for instant future loads
+      if (bcv !== null || binance !== null) {
+        cacheRates(bcv, binance);
+        setLastUpdated(new Date());
+      }
     } catch (error) {
       console.error('Error fetching data', error);
     } finally {
-      setLoading(false);
+      if (showLoading) setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchData();
+    // Try to load cached data immediately
+    const cached = getCachedRates();
+    if (cached) {
+      setBcvRate(cached.bcvRate);
+      setBinanceRate(cached.binanceRate);
+      setLastUpdated(new Date(cached.timestamp));
+      setLoading(false); // Show content immediately with cached data
+    }
+    
+    // Fetch fresh data in background
+    fetchData(!cached); // Only show loading if no cache
   }, []);
 
+  const PullToRefreshWrapper = ({ children }) => (
+    <Suspense fallback={children}>
+      <PullToRefresh onRefresh={() => fetchData(true)}>
+        {children}
+      </PullToRefresh>
+    </Suspense>
+  );
+
   return (
-    <PullToRefresh onRefresh={fetchData}>
+    <PullToRefreshWrapper>
       <div className="relative min-h-screen w-full overflow-hidden bg-black text-white selection:bg-venezuela-blue selection:text-black">
       {/* Background Effects */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
@@ -68,22 +97,31 @@ function App() {
 
         {/* content */}
         <div className="flex flex-col md:flex-row gap-6 w-full max-w-4xl justify-center items-stretch">
-          <RateCard
-            title="Banco Central (BCV)"
-            rate={bcvRate}
-            provider="Official BCV"
-            color="venezuela-blue"
-            icon={<span className="font-bold">BCV</span>}
-            trend="up" // Placeholder trend logic
-          />
-          <RateCard
-            title="Binance P2P (Sell)"
-            rate={binanceRate}
-            provider="Binance Market"
-            color="venezuela-yellow"
-            icon={<span className="font-bold">P2P</span>}
-            trend="down" // Placeholder trend logic
-          />
+          {loading && !bcvRate && !binanceRate ? (
+            <>
+              <SkeletonRateCard />
+              <SkeletonRateCard />
+            </>
+          ) : (
+            <>
+              <RateCard
+                title="Banco Central (BCV)"
+                rate={bcvRate}
+                provider="Official BCV"
+                color="venezuela-blue"
+                icon={<span className="font-bold">BCV</span>}
+                trend="up"
+              />
+              <RateCard
+                title="Binance P2P (Sell)"
+                rate={binanceRate}
+                provider="Binance Market"
+                color="venezuela-yellow"
+                icon={<span className="font-bold">P2P</span>}
+                trend="down"
+              />
+            </>
+          )}
         </div>
 
         <Spacer y={8} />
@@ -92,7 +130,7 @@ function App() {
         <div className="flex flex-col items-center gap-6 mt-12">
           <Button
             isLoading={loading}
-            onPress={fetchData}
+            onPress={() => fetchData(true)}
             variant="bordered"
             radius="full"
             className={`
@@ -129,10 +167,12 @@ function App() {
         </footer>
       </div>
 
-      {/* Install Prompt */}
-      <InstallPrompt />
+      {/* Install Prompt - Lazy loaded */}
+      <Suspense fallback={null}>
+        <InstallPrompt />
+      </Suspense>
     </div>
-    </PullToRefresh>
+    </PullToRefreshWrapper>
   );
 }
 
