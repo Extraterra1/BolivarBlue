@@ -79,9 +79,9 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
   const handleInputChange = (currency, value) => {
     // Only allow numbers and decimal point
     if (value && !/^\d*\.?\d*$/.test(value)) return;
-    
+
     setLastEdited(currency);
-    
+
     switch (currency) {
       case 'usd':
         calculateFromUSD(value);
@@ -103,28 +103,28 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
     placeholder:text-gray-500
     focus:bg-gray-800 focus:border-blue-500
     text-lg font-medium
+    h-12
   `;
 
-  const labelClass = "text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 block";
+  const labelClass = 'text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 block';
 
   return (
     <div className="w-full max-w-4xl mt-12">
       <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 border border-white/10 rounded-xl p-6 md:p-8 backdrop-blur-sm">
-        <h2 className="text-2xl font-bold text-white mb-6 text-center">
-          Currency Converter
-        </h2>
-        
+        <h2 className="text-2xl font-bold text-white mb-6 text-center">Currency Converter</h2>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* USD Input */}
-          <div className="relative">
+          <div>
             <label className={labelClass}>USD</label>
-            <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">$</span>
+            <div className="relative h-12">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold z-10">$</span>
               <Input
                 type="text"
                 value={values.usd}
                 onChange={(e) => handleInputChange('usd', e.target.value)}
-                className={`${inputClass} pl-10`}
+                className={inputClass}
+                classNames={{ input: 'pl-10 h-full' }}
                 placeholder="0.00"
                 size="lg"
               />
@@ -132,15 +132,16 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
           </div>
 
           {/* EUR Input */}
-          <div className="relative">
+          <div>
             <label className={labelClass}>EUR</label>
-            <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">€</span>
+            <div className="relative h-12">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold z-10">€</span>
               <Input
                 type="text"
                 value={values.eur}
                 onChange={(e) => handleInputChange('eur', e.target.value)}
-                className={`${inputClass} pl-10`}
+                className={inputClass}
+                classNames={{ input: 'pl-10 h-full' }}
                 placeholder="0.00"
                 size="lg"
               />
@@ -148,15 +149,16 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
           </div>
 
           {/* Bs. BCV Input */}
-          <div className="relative">
+          <div>
             <label className={labelClass}>Bs. (BCV)</label>
-            <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-400 font-bold">Bs.</span>
+            <div className="relative h-12">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-400 font-bold z-10">Bs.</span>
               <Input
                 type="text"
                 value={values.bsBcv}
                 onChange={(e) => handleInputChange('bsBcv', e.target.value)}
-                className={`${inputClass} pl-12`}
+                className={inputClass}
+                classNames={{ input: 'pl-12 h-full' }}
                 placeholder="0.00"
                 size="lg"
               />
@@ -164,15 +166,16 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
           </div>
 
           {/* Bs. Binance Input */}
-          <div className="relative">
+          <div>
             <label className={labelClass}>Bs. (Binance)</label>
-            <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-yellow-400 font-bold">Bs.</span>
+            <div className="relative h-12">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-yellow-400 font-bold z-10">Bs.</span>
               <Input
                 type="text"
                 value={values.bsBinance}
                 onChange={(e) => handleInputChange('bsBinance', e.target.value)}
-                className={`${inputClass} pl-12`}
+                className={inputClass}
+                classNames={{ input: 'pl-12 h-full' }}
                 placeholder="0.00"
                 size="lg"
               />
@@ -181,9 +184,7 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
         </div>
 
         {/* Info text */}
-        <p className="text-center text-gray-500 text-xs mt-6">
-          Enter any value above to convert between currencies
-        </p>
+        <p className="text-center text-gray-500 text-xs mt-6">Enter any value above to convert between currencies</p>
       </div>
     </div>
   );
