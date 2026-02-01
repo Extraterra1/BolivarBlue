@@ -2,6 +2,7 @@ import { useState, useEffect, lazy, Suspense } from 'react';
 import { FaWifi, FaBan } from 'react-icons/fa';
 import RateCard from './components/RateCard';
 import SkeletonRateCard from './components/SkeletonRateCard';
+import CurrencyCalculator from './components/CurrencyCalculator';
 import { fetchBCVRate, fetchBinanceRate } from './services/api';
 import { useOnlineStatus } from './hooks/useOnlineStatus';
 import { cacheRates, getCachedRates } from './utils/cache';
@@ -102,6 +103,9 @@ function App() {
             </>
           )}
         </div>
+
+        {/* Currency Calculator */}
+        <CurrencyCalculator bcvRate={bcvRate} binanceRate={binanceRate} />
 
         {/* Footer */}
         <footer className="mt-auto pt-16 pb-4 text-center text-gray-600 text-sm">
