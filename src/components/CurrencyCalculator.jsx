@@ -101,7 +101,7 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
   const inputClass = `
     bg-gray-800/50 border-white/20 text-white 
     placeholder:text-gray-500
-    focus:bg-gray-800 focus:border-blue-500
+    focus:bg-gray-800 focus:border-blue-500 focus:ring-0 focus:outline-none
     text-lg font-medium
     h-12
   `;
@@ -124,7 +124,10 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
                 value={values.usd}
                 onChange={(e) => handleInputChange('usd', e.target.value)}
                 className={inputClass}
-                classNames={{ input: 'pl-10 h-full' }}
+                classNames={{
+                  input: 'pl-10 h-full !outline-none !ring-0',
+                  inputWrapper: '!ring-0 !ring-offset-0 !outline-none !shadow-none'
+                }}
                 placeholder="0.00"
                 size="lg"
               />
@@ -141,7 +144,10 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
                 value={values.eur}
                 onChange={(e) => handleInputChange('eur', e.target.value)}
                 className={inputClass}
-                classNames={{ input: 'pl-10 h-full' }}
+                classNames={{
+                  input: 'pl-10 h-full !outline-none !ring-0',
+                  inputWrapper: '!ring-0 !ring-offset-0 !outline-none !shadow-none'
+                }}
                 placeholder="0.00"
                 size="lg"
               />
@@ -158,7 +164,10 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
                 value={values.bsBcv}
                 onChange={(e) => handleInputChange('bsBcv', e.target.value)}
                 className={inputClass}
-                classNames={{ input: 'pl-12 h-full' }}
+                classNames={{
+                  input: 'pl-12 h-full !outline-none !ring-0',
+                  inputWrapper: '!ring-0 !ring-offset-0 !outline-none !shadow-none'
+                }}
                 placeholder="0.00"
                 size="lg"
               />
@@ -175,7 +184,10 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
                 value={values.bsBinance}
                 onChange={(e) => handleInputChange('bsBinance', e.target.value)}
                 className={inputClass}
-                classNames={{ input: 'pl-12 h-full' }}
+                classNames={{
+                  input: 'pl-12 h-full !outline-none !ring-0',
+                  inputWrapper: '!ring-0 !ring-offset-0 !outline-none !shadow-none'
+                }}
                 placeholder="0.00"
                 size="lg"
               />
