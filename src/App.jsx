@@ -1,6 +1,5 @@
 import { useState, useEffect, lazy, Suspense } from 'react';
-import { Button, Spacer } from '@heroui/react';
-import { FaSyncAlt, FaWifi, FaBan } from 'react-icons/fa';
+import { FaWifi, FaBan } from 'react-icons/fa';
 import RateCard from './components/RateCard';
 import SkeletonRateCard from './components/SkeletonRateCard';
 import { fetchBCVRate, fetchBinanceRate } from './services/api';
@@ -8,62 +7,42 @@ import { useOnlineStatus } from './hooks/useOnlineStatus';
 import { cacheRates, getCachedRates } from './utils/cache';
 
 // Lazy load non-critical components
-const PullToRefresh = lazy(() => import('./components/PullToRefresh'));
 const InstallPrompt = lazy(() => import('./components/InstallPrompt'));
 
 function App() {
   const [bcvRate, setBcvRate] = useState(null);
   const [binanceRate, setBinanceRate] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [lastUpdated, setLastUpdated] = useState(null);
   const { isOnline, wasOffline } = useOnlineStatus();
 
-  const fetchData = async (showLoading = true) => {
-    if (showLoading) setLoading(true);
-    try {
-      const [bcv, binance] = await Promise.all([fetchBCVRate(), fetchBinanceRate()]);
-      
-      // Only update state if we got valid data
-      if (bcv !== null) setBcvRate(bcv);
-      if (binance !== null) setBinanceRate(binance);
-      
-      // Cache the rates for instant future loads
-      if (bcv !== null || binance !== null) {
-        cacheRates(bcv, binance);
-        setLastUpdated(new Date());
-      }
-    } catch (error) {
-      console.error('Error fetching data', error);
-    } finally {
-      if (showLoading) setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    // Try to load cached data immediately
-    const cached = getCachedRates();
-    if (cached) {
-      setBcvRate(cached.bcvRate);
-      setBinanceRate(cached.binanceRate);
-      setLastUpdated(new Date(cached.timestamp));
-      setLoading(false); // Show content immediately with cached data
-    }
-    
-    // Fetch fresh data in background
-    fetchData(!cached); // Only show loading if no cache
+    const loadData = async () => {
+      // Try to load cached data immediately
+      const cached = getCachedRates();
+      if (cached) {
+        setBcvRate(cached.bcvRate);
+        setBinanceRate(cached.binanceRate);
+        setLoading(false);
+      }
+
+      // Fetch fresh data in background
+      try {
+        const [bcv, binance] = await Promise.all([fetchBCVRate(), fetchBinanceRate()]);
+        if (bcv !== null) setBcvRate(bcv);
+        if (binance !== null) setBinanceRate(binance);
+        if (bcv !== null || binance !== null) cacheRates(bcv, binance);
+      } catch (error) {
+        console.error('Error fetching data', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
   }, []);
 
-  const PullToRefreshWrapper = ({ children }) => (
-    <Suspense fallback={children}>
-      <PullToRefresh onRefresh={() => fetchData(true)}>
-        {children}
-      </PullToRefresh>
-    </Suspense>
-  );
-
   return (
-    <PullToRefreshWrapper>
-      <div className="relative min-h-screen w-full overflow-hidden bg-black text-white selection:bg-venezuela-blue selection:text-black">
+    <div className="relative min-h-screen w-full overflow-hidden bg-black text-white selection:bg-venezuela-blue selection:text-black">
       {/* Background Effects */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
         <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[120px]" />
@@ -124,43 +103,6 @@ function App() {
           )}
         </div>
 
-        <Spacer y={8} />
-
-        {/* Actions */}
-        <div className="flex flex-col items-center gap-6 mt-12">
-          <Button
-            isLoading={loading}
-            onPress={() => fetchData(true)}
-            variant="bordered"
-            radius="full"
-            className={`
-              relative overflow-hidden group border-blue-500/20 bg-blue-600/10 backdrop-blur-md
-              hover:bg-white/10 hover:border-white/20 px-10 py-7 h-auto
-              transition-all duration-500 ease-out
-              ${loading ? 'opacity-80' : 'hover:shadow-[0_0_30px_rgba(59,130,246,0.3)]'}
-            `}
-          >
-            <div className="flex items-center gap-3">
-              {!loading && <FaSyncAlt className={`text-xl text-venezuela-blue transition-transform duration-700 group-hover:rotate-180`} />}
-              <span className="text-xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
-                {loading ? 'Fetching Rates...' : 'Update Market Rates'}
-              </span>
-            </div>
-
-            {/* Subtle glow effect behind */}
-            <div className="absolute inset-0 bg-gradient-to-r from-venezuela-blue/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          </Button>
-
-          {lastUpdated && (
-            <div className="flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/5 bg-white/[0.02] backdrop-blur-sm">
-              <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-              <p className="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-bold">
-                Synced at: {lastUpdated.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
-              </p>
-            </div>
-          )}
-        </div>
-
         {/* Footer */}
         <footer className="mt-auto pt-16 pb-4 text-center text-gray-600 text-sm">
           <p>Made with ❤️ for Venezuela</p>
@@ -172,7 +114,6 @@ function App() {
         <InstallPrompt />
       </Suspense>
     </div>
-    </PullToRefreshWrapper>
   );
 }
 
