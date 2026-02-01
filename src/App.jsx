@@ -88,7 +88,7 @@ function App() {
                 rate={bcvRate}
                 provider="Official BCV"
                 color="venezuela-blue"
-                icon={<span className="font-bold">BCV</span>}
+                logo="/bcv-logo.svg"
                 trend="up"
               />
               <RateCard
@@ -96,7 +96,7 @@ function App() {
                 rate={binanceRate}
                 provider="Binance Market"
                 color="venezuela-yellow"
-                icon={<span className="font-bold">P2P</span>}
+                logo="/binance-logo.svg"
                 trend="down"
               />
             </>
