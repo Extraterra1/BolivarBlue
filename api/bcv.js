@@ -19,7 +19,7 @@ export default async function handler(req, res) {
   try {
     // Create axios instance that ignores SSL certificate errors
     const client = axios.create({
-      httpsAgent: new (require('https').Agent)({
+      httpsAgent: new https.Agent({
         rejectUnauthorized: false
       }),
       timeout: 10000,
