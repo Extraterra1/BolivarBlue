@@ -18,9 +18,6 @@ export const translations = {
     bsBinanceLabel: 'Bs. (Binance)',
     calculatorInfo: 'Ingresa cualquier valor arriba para convertir entre monedas',
 
-    // Footer
-    footer: 'Hecho con ❤️ para Venezuela',
-
     // Offline/Online indicators
     offline: 'Usando datos en caché • Sin conexión',
     backOnline: 'De vuelta en línea',
@@ -52,9 +49,6 @@ export const translations = {
     bsBcvLabel: 'Bs. (BCV)',
     bsBinanceLabel: 'Bs. (Binance)',
     calculatorInfo: 'Enter any value above to convert between currencies',
-
-    // Footer
-    footer: 'Made with ❤️ for Venezuela',
 
     // Offline/Online indicators
     offline: 'Using cached data • Offline',

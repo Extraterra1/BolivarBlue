@@ -76,15 +76,13 @@ function AppContent() {
             <span>{t('backOnline')}</span>
           </div>
         )}
-        
+
         {/* Header */}
         <header className="mb-12 text-center">
           <h1 className="text-5xl md:text-7xl font-black mb-2 tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-[#00247D] to-[#d4a017] dark:from-white dark:via-gray-200 dark:to-gray-500">
             Bolivar<span className="text-[#00247D] dark:text-blue-500">Blue</span>
           </h1>
-          <p className="text-slate-600 dark:text-gray-400 text-lg max-w-md mx-auto">
-            {t('appSubtitle')}
-          </p>
+          <p className="text-slate-600 dark:text-gray-400 text-lg max-w-md mx-auto">{t('appSubtitle')}</p>
         </header>
 
         {/* content */}
@@ -96,14 +94,7 @@ function AppContent() {
             </>
           ) : (
             <>
-              <RateCard
-                title={t('bcvTitle')}
-                rate={bcvRate}
-                provider={t('bcvProvider')}
-                color="venezuela-blue"
-                logo="/bcv-logo.svg"
-                trend="up"
-              />
+              <RateCard title={t('bcvTitle')} rate={bcvRate} provider={t('bcvProvider')} color="venezuela-blue" logo="/bcv-logo.svg" trend="up" />
               <RateCard
                 title={t('binanceTitle')}
                 rate={binanceRate}
@@ -118,11 +109,6 @@ function AppContent() {
 
         {/* Currency Calculator */}
         <CurrencyCalculator bcvRate={bcvRate} binanceRate={binanceRate} />
-
-        {/* Footer */}
-        <footer className="mt-auto pt-16 pb-4 text-center text-slate-500 dark:text-gray-600 text-sm">
-          <p>{t('footer')}</p>
-        </footer>
       </div>
 
       {/* Install Prompt - Lazy loaded */}

@@ -7,6 +7,8 @@
 [![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![HeroUI](https://img.shields.io/badge/HeroUI-%23000000.svg?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://heroui.com/)
 
+![BolivarBlue Preview](./app-preview.png)
+
 ---
 
 ## ✨ Features
@@ -87,7 +89,3 @@ The app is optimized for deployment on **Vercel**, utilizing its Serverless Func
 ## 📄 License
 
 This project is private and intended for personal use.
-
----
-
-Made with ❤️ for Venezuela 🇻🇪
