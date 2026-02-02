@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { HeroUIProvider } from '@heroui/react';
 import './index.css';
 import App from './App.jsx';
+import { LanguageProvider } from './context/LanguageContext';
 import { registerSW } from 'virtual:pwa-register';
 
 registerSW({
@@ -17,7 +18,9 @@ registerSW({
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <HeroUIProvider>
-      <App />
+      <LanguageProvider>
+        <App />
+      </LanguageProvider>
     </HeroUIProvider>
-  </StrictMode>
+  </StrictMode>,
 );

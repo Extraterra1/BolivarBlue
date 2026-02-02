@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react';
 import { Input } from '@heroui/react';
 import axios from 'axios';
 import { useTheme } from '../context/ThemeContext';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function CurrencyCalculator({ bcvRate, binanceRate }) {
   const { theme } = useTheme();
+  const { t } = useLanguage();
   const isDark = theme === 'dark';
   
   const [eurUsdRate, setEurUsdRate] = useState(null);
@@ -123,12 +125,12 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
   return (
     <div className="w-full max-w-4xl mt-12">
       <div className={`${containerClasses} rounded-xl p-6 md:p-8 backdrop-blur-sm border`}>
-        <h2 className={titleClasses}>Currency Converter</h2>
+        <h2 className={titleClasses}>{t('calculatorTitle')}</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* USD Input */}
           <div>
-            <label className={labelClasses}>USD</label>
+            <label className={labelClasses}>{t('usdLabel')}</label>
             <div className="relative h-12">
               <span className={`absolute left-4 top-1/2 -translate-y-1/2 font-bold z-10 ${isDark ? 'text-gray-400' : 'text-slate-500'}`}>$</span>
               <Input
@@ -148,7 +150,7 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
 
           {/* EUR Input */}
           <div>
-            <label className={labelClasses}>EUR</label>
+            <label className={labelClasses}>{t('eurLabel')}</label>
             <div className="relative h-12">
               <span className={`absolute left-4 top-1/2 -translate-y-1/2 font-bold z-10 ${isDark ? 'text-gray-400' : 'text-slate-500'}`}>€</span>
               <Input
@@ -168,7 +170,7 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
 
           {/* Bs. BCV Input */}
           <div>
-            <label className={labelClasses}>Bs. (BCV)</label>
+            <label className={labelClasses}>{t('bsBcvLabel')}</label>
             <div className="relative h-12">
               <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#00247D] font-bold z-10">Bs.</span>
               <Input
@@ -188,7 +190,7 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
 
           {/* Bs. Binance Input */}
           <div>
-            <label className={labelClasses}>Bs. (Binance)</label>
+            <label className={labelClasses}>{t('bsBinanceLabel')}</label>
             <div className="relative h-12">
               <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#d4a017] font-bold z-10">Bs.</span>
               <Input
@@ -208,7 +210,7 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
         </div>
 
         {/* Info text */}
-        <p className={infoClasses}>Enter any value above to convert between currencies</p>
+        <p className={infoClasses}>{t('calculatorInfo')}</p>
       </div>
     </div>
   );

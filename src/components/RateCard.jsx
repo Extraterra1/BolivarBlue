@@ -1,13 +1,15 @@
 import { Card, CardBody, CardHeader, Divider } from '@heroui/react';
 import { FaArrowUp, FaArrowDown, FaMinus } from 'react-icons/fa';
 import { useTheme } from '../context/ThemeContext';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function RateCard({ title, rate, provider, color, logo, trend }) {
   const { theme } = useTheme();
+  const { t } = useLanguage();
   const isDark = theme === 'dark';
 
   const formatRate = (val) => {
-    return 'Bs. ' + val.toFixed(2);
+    return t('currencySymbol') + ' ' + val.toFixed(2);
   };
 
   // Theme-aware color classes

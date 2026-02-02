@@ -1,7 +1,9 @@
 import { useState, useEffect, lazy, Suspense } from 'react';
 import { FaWifi, FaBan } from 'react-icons/fa';
 import { ThemeProvider } from './context/ThemeContext';
+import { useLanguage } from './context/LanguageContext';
 import ThemeToggle from './components/ThemeToggle';
+import LanguageToggle from './components/LanguageToggle';
 import RateCard from './components/RateCard';
 import SkeletonRateCard from './components/SkeletonRateCard';
 import CurrencyCalculator from './components/CurrencyCalculator';
@@ -17,6 +19,7 @@ function AppContent() {
   const [binanceRate, setBinanceRate] = useState(null);
   const [loading, setLoading] = useState(true);
   const { isOnline, wasOffline } = useOnlineStatus();
+  const { t } = useLanguage();
 
   useEffect(() => {
     const loadData = async () => {
@@ -53,15 +56,16 @@ function AppContent() {
         <div className="absolute top-[40%] left-[50%] transform -translate-x-1/2 w-[300px] h-[300px] rounded-full blur-[100px] bg-blue-700/10 dark:bg-blue-700/10 bg-[#FFCC00]/5" />
       </div>
 
-      {/* Theme Toggle */}
+      {/* Toggles */}
       <ThemeToggle />
+      <LanguageToggle />
 
       <div className="relative z-10 container mx-auto px-4 py-8 flex flex-col items-center justify-center min-h-screen">
         {/* Offline Indicator */}
         {!isOnline && (
           <div className="fixed top-[max(1rem,env(safe-area-inset-top))] left-1/2 -translate-x-1/2 z-40 bg-yellow-500/95 text-black px-4 py-2 rounded-full text-sm font-bold backdrop-blur-sm shadow-lg flex items-center gap-2">
             <FaBan className="text-xs" />
-            <span>Using cached data • Offline</span>
+            <span>{t('offline')}</span>
           </div>
         )}
 
@@ -69,7 +73,7 @@ function AppContent() {
         {wasOffline && isOnline && (
           <div className="fixed top-[max(1rem,env(safe-area-inset-top))] left-1/2 -translate-x-1/2 z-40 bg-green-500/95 text-black px-4 py-2 rounded-full text-sm font-bold backdrop-blur-sm shadow-lg flex items-center gap-2">
             <FaWifi className="text-xs" />
-            <span>Back online</span>
+            <span>{t('backOnline')}</span>
           </div>
         )}
         
@@ -79,7 +83,7 @@ function AppContent() {
             Bolivar<span className="text-[#00247D] dark:text-blue-500">Blue</span>
           </h1>
           <p className="text-slate-600 dark:text-gray-400 text-lg max-w-md mx-auto">
-            Real-time exchange rates for the Venezuelan Bolívar.
+            {t('appSubtitle')}
           </p>
         </header>
 
@@ -93,17 +97,17 @@ function AppContent() {
           ) : (
             <>
               <RateCard
-                title="Banco Central (BCV)"
+                title={t('bcvTitle')}
                 rate={bcvRate}
-                provider="Official BCV"
+                provider={t('bcvProvider')}
                 color="venezuela-blue"
                 logo="/bcv-logo.svg"
                 trend="up"
               />
               <RateCard
-                title="Binance P2P (Sell)"
+                title={t('binanceTitle')}
                 rate={binanceRate}
-                provider="Binance Market"
+                provider={t('binanceProvider')}
                 color="venezuela-yellow"
                 logo="/binance-logo.svg"
                 trend="down"
@@ -117,7 +121,7 @@ function AppContent() {
 
         {/* Footer */}
         <footer className="mt-auto pt-16 pb-4 text-center text-slate-500 dark:text-gray-600 text-sm">
-          <p>Made with ❤️ for Venezuela</p>
+          <p>{t('footer')}</p>
         </footer>
       </div>
 
