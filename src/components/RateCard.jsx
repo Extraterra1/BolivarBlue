@@ -48,7 +48,11 @@ export default function RateCard({ title, rate, provider, color, logo, trend }) 
           className={`w-11 h-11 md:w-12 md:h-12 flex items-center justify-center rounded-xl overflow-hidden border ${getAccentColor()}`}
         >
           {logo ? (
-            <img src={logo} alt={title} className="w-8 h-8 md:w-9 md:h-9 object-contain" />
+            <img 
+              src={logo} 
+              alt={title} 
+              className={`w-8 h-8 md:w-9 md:h-9 object-contain ${title === 'Banco Central (BCV)' && !isDark ? 'brightness-0' : ''}`} 
+            />
           ) : (
             <span className={`text-xl md:text-2xl font-bold ${getIconColor()}`}>{title.charAt(0)}</span>
           )}
