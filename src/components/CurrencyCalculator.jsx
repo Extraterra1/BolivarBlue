@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Input } from '@heroui/react';
 import axios from 'axios';
+import { useTheme } from '../context/ThemeContext';
 
 export default function CurrencyCalculator({ bcvRate, binanceRate }) {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+  
   const [eurUsdRate, setEurUsdRate] = useState(null);
   const [values, setValues] = useState({
     usd: '1',
@@ -10,7 +14,6 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
     bsBcv: '',
     bsBinance: ''
   });
-  const [lastEdited, setLastEdited] = useState('usd');
 
   // Fetch EUR/USD rate
   useEffect(() => {
@@ -80,8 +83,6 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
     // Only allow numbers and decimal point
     if (value && !/^\d*\.?\d*$/.test(value)) return;
 
-    setLastEdited(currency);
-
     switch (currency) {
       case 'usd':
         calculateFromUSD(value);
@@ -98,35 +99,46 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
     }
   };
 
-  const inputClass = `
-    bg-gray-800/50 border-white/20 text-white 
-    placeholder:text-gray-500
-    focus:bg-gray-800 focus:border-blue-500 focus:ring-0 focus:outline-none
-    text-lg font-medium
-    h-12
-  `;
+  // Theme-aware classes
+  const containerClasses = isDark
+    ? 'bg-gradient-to-br from-gray-800/50 to-gray-900/50 border-white/10'
+    : 'bg-gradient-to-br from-white to-slate-50 border-[#00247D]/15 shadow-xl';
 
-  const labelClass = 'text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 block';
+  const inputClasses = isDark
+    ? 'bg-gray-800/50 border-white/20 text-white placeholder:text-gray-500 focus:bg-gray-800 focus:border-blue-500'
+    : 'bg-white border-[#00247D]/20 text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-[#00247D]';
+
+  const labelClasses = isDark
+    ? 'text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 block'
+    : 'text-xs font-bold text-[#00247D] uppercase tracking-wider mb-2 block';
+
+  const titleClasses = isDark
+    ? 'text-2xl font-bold text-white mb-6 text-center'
+    : 'text-2xl font-bold text-slate-900 mb-6 text-center';
+
+  const infoClasses = isDark
+    ? 'text-center text-gray-500 text-xs mt-6'
+    : 'text-center text-slate-500 text-xs mt-6';
 
   return (
     <div className="w-full max-w-4xl mt-12">
-      <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 border border-white/10 rounded-xl p-6 md:p-8 backdrop-blur-sm">
-        <h2 className="text-2xl font-bold text-white mb-6 text-center">Currency Converter</h2>
+      <div className={`${containerClasses} rounded-xl p-6 md:p-8 backdrop-blur-sm border`}>
+        <h2 className={titleClasses}>Currency Converter</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* USD Input */}
           <div>
-            <label className={labelClass}>USD</label>
+            <label className={labelClasses}>USD</label>
             <div className="relative h-12">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold z-10">$</span>
+              <span className={`absolute left-4 top-1/2 -translate-y-1/2 font-bold z-10 ${isDark ? 'text-gray-400' : 'text-slate-500'}`}>$</span>
               <Input
                 type="text"
                 value={values.usd}
                 onChange={(e) => handleInputChange('usd', e.target.value)}
-                className={inputClass}
+                className={`${inputClasses} text-lg font-medium h-12`}
                 classNames={{
-                  input: 'pl-10 h-full !outline-none !ring-0',
-                  inputWrapper: '!ring-0 !ring-offset-0 !outline-none !shadow-none'
+                  input: 'pl-10 h-full',
+                  inputWrapper: 'h-full'
                 }}
                 placeholder="0.00"
                 size="lg"
@@ -136,17 +148,17 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
 
           {/* EUR Input */}
           <div>
-            <label className={labelClass}>EUR</label>
+            <label className={labelClasses}>EUR</label>
             <div className="relative h-12">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold z-10">€</span>
+              <span className={`absolute left-4 top-1/2 -translate-y-1/2 font-bold z-10 ${isDark ? 'text-gray-400' : 'text-slate-500'}`}>€</span>
               <Input
                 type="text"
                 value={values.eur}
                 onChange={(e) => handleInputChange('eur', e.target.value)}
-                className={inputClass}
+                className={`${inputClasses} text-lg font-medium h-12`}
                 classNames={{
-                  input: 'pl-10 h-full !outline-none !ring-0',
-                  inputWrapper: '!ring-0 !ring-offset-0 !outline-none !shadow-none'
+                  input: 'pl-10 h-full',
+                  inputWrapper: 'h-full'
                 }}
                 placeholder="0.00"
                 size="lg"
@@ -156,17 +168,17 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
 
           {/* Bs. BCV Input */}
           <div>
-            <label className={labelClass}>Bs. (BCV)</label>
+            <label className={labelClasses}>Bs. (BCV)</label>
             <div className="relative h-12">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-400 font-bold z-10">Bs.</span>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#00247D] font-bold z-10">Bs.</span>
               <Input
                 type="text"
                 value={values.bsBcv}
                 onChange={(e) => handleInputChange('bsBcv', e.target.value)}
-                className={inputClass}
+                className={`${inputClasses} text-lg font-medium h-12`}
                 classNames={{
-                  input: 'pl-12 h-full !outline-none !ring-0',
-                  inputWrapper: '!ring-0 !ring-offset-0 !outline-none !shadow-none'
+                  input: 'pl-12 h-full',
+                  inputWrapper: 'h-full'
                 }}
                 placeholder="0.00"
                 size="lg"
@@ -176,17 +188,17 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
 
           {/* Bs. Binance Input */}
           <div>
-            <label className={labelClass}>Bs. (Binance)</label>
+            <label className={labelClasses}>Bs. (Binance)</label>
             <div className="relative h-12">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-yellow-400 font-bold z-10">Bs.</span>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#d4a017] font-bold z-10">Bs.</span>
               <Input
                 type="text"
                 value={values.bsBinance}
                 onChange={(e) => handleInputChange('bsBinance', e.target.value)}
-                className={inputClass}
+                className={`${inputClasses} text-lg font-medium h-12`}
                 classNames={{
-                  input: 'pl-12 h-full !outline-none !ring-0',
-                  inputWrapper: '!ring-0 !ring-offset-0 !outline-none !shadow-none'
+                  input: 'pl-12 h-full',
+                  inputWrapper: 'h-full'
                 }}
                 placeholder="0.00"
                 size="lg"
@@ -196,7 +208,7 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
         </div>
 
         {/* Info text */}
-        <p className="text-center text-gray-500 text-xs mt-6">Enter any value above to convert between currencies</p>
+        <p className={infoClasses}>Enter any value above to convert between currencies</p>
       </div>
     </div>
   );
