@@ -17,7 +17,12 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
     bsBcv: '',
     bsBinance: ''
   });
-  const [bcvUsdValue, setBcvUsdValue] = useState('1');
+  const [realValues, setRealValues] = useState({
+    bcvUsd: '1',
+    bcvBs: '',
+    realUsd: '',
+    realEur: ''
+  });
 
   // Fetch EUR/USD rate
   useEffect(() => {
@@ -37,6 +42,12 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
   useEffect(() => {
     if (eurUsdRate && (bcvRate || binanceRate)) {
       calculateFromUSD(1);
+    }
+  }, [eurUsdRate, bcvRate, binanceRate]);
+
+  useEffect(() => {
+    if (eurUsdRate && (bcvRate || binanceRate)) {
+      calculateFromBcvUsd(realValues.bcvUsd || '1');
     }
   }, [eurUsdRate, bcvRate, binanceRate]);
 
@@ -103,9 +114,75 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
     }
   };
 
-  const handleBcvUsdChange = (value) => {
+  const calculateFromBcvUsd = (bcvUsdValue) => {
+    const usd = parseFloat(bcvUsdValue) || 0;
+    const bs = bcvRate ? usd * bcvRate : 0;
+    const realUsd = binanceRate ? bs / binanceRate : 0;
+    const realEur = eurUsdRate ? realUsd / eurUsdRate : 0;
+    setRealValues({
+      bcvUsd: bcvUsdValue,
+      bcvBs: bcvRate ? bs.toFixed(2) : '',
+      realUsd: binanceRate ? realUsd.toFixed(2) : '',
+      realEur: eurUsdRate ? realEur.toFixed(2) : ''
+    });
+  };
+
+  const calculateFromBcvBs = (bcvBsValue) => {
+    const bs = parseFloat(bcvBsValue) || 0;
+    const bcvUsd = bcvRate ? bs / bcvRate : 0;
+    const realUsd = binanceRate ? bs / binanceRate : 0;
+    const realEur = eurUsdRate ? realUsd / eurUsdRate : 0;
+    setRealValues({
+      bcvUsd: bcvRate ? bcvUsd.toFixed(2) : '',
+      bcvBs: bcvBsValue,
+      realUsd: binanceRate ? realUsd.toFixed(2) : '',
+      realEur: eurUsdRate ? realEur.toFixed(2) : ''
+    });
+  };
+
+  const calculateFromRealUsd = (realUsdValue) => {
+    const usd = parseFloat(realUsdValue) || 0;
+    const bs = binanceRate ? usd * binanceRate : 0;
+    const bcvUsd = bcvRate ? bs / bcvRate : 0;
+    const realEur = eurUsdRate ? usd / eurUsdRate : 0;
+    setRealValues({
+      bcvUsd: bcvRate ? bcvUsd.toFixed(2) : '',
+      bcvBs: binanceRate ? bs.toFixed(2) : '',
+      realUsd: realUsdValue,
+      realEur: eurUsdRate ? realEur.toFixed(2) : ''
+    });
+  };
+
+  const calculateFromRealEur = (realEurValue) => {
+    const eur = parseFloat(realEurValue) || 0;
+    const realUsd = eurUsdRate ? eur * eurUsdRate : 0;
+    const bs = binanceRate ? realUsd * binanceRate : 0;
+    const bcvUsd = bcvRate ? bs / bcvRate : 0;
+    setRealValues({
+      bcvUsd: bcvRate ? bcvUsd.toFixed(2) : '',
+      bcvBs: binanceRate ? bs.toFixed(2) : '',
+      realUsd: eurUsdRate ? realUsd.toFixed(2) : '',
+      realEur: realEurValue
+    });
+  };
+
+  const handleRealInputChange = (field, value) => {
     if (value && !/^\d*\.?\d*$/.test(value)) return;
-    setBcvUsdValue(value);
+
+    switch (field) {
+      case 'bcvUsd':
+        calculateFromBcvUsd(value);
+        break;
+      case 'bcvBs':
+        calculateFromBcvBs(value);
+        break;
+      case 'realUsd':
+        calculateFromRealUsd(value);
+        break;
+      case 'realEur':
+        calculateFromRealEur(value);
+        break;
+    }
   };
 
   // Theme-aware classes
@@ -132,11 +209,6 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
   const tabInactiveClasses = isDark
     ? 'bg-transparent border-white/10 text-gray-400 hover:text-white'
     : 'bg-transparent border-[#00247D]/10 text-slate-500 hover:text-[#00247D]';
-
-  const bcvUsd = parseFloat(bcvUsdValue) || 0;
-  const bcvBs = bcvRate ? bcvUsd * bcvRate : 0;
-  const realUsd = binanceRate ? bcvBs / binanceRate : 0;
-  const realEur = eurUsdRate ? realUsd / eurUsdRate : 0;
 
   return (
     <div className="w-full max-w-4xl mt-12">
@@ -257,8 +329,8 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
                   <span className={`absolute left-4 top-1/2 -translate-y-1/2 font-bold z-10 ${isDark ? 'text-gray-400' : 'text-slate-500'}`}>$</span>
                   <Input
                     type="text"
-                    value={bcvUsdValue}
-                    onChange={(e) => handleBcvUsdChange(e.target.value)}
+                    value={realValues.bcvUsd}
+                    onChange={(e) => handleRealInputChange('bcvUsd', e.target.value)}
                     className={`${inputClasses} text-lg font-medium h-12`}
                     classNames={{
                       input: 'pl-10 h-full !outline-none !ring-0',
@@ -276,8 +348,8 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
                   <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#00247D] font-bold z-10">Bs.</span>
                   <Input
                     type="text"
-                    value={bcvRate ? bcvBs.toFixed(2) : '---'}
-                    isReadOnly
+                    value={realValues.bcvBs}
+                    onChange={(e) => handleRealInputChange('bcvBs', e.target.value)}
                     className={`${inputClasses} text-lg font-medium h-12`}
                     classNames={{
                       input: 'pl-12 h-full !outline-none !ring-0',
@@ -295,8 +367,8 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
                   <span className={`absolute left-4 top-1/2 -translate-y-1/2 font-bold z-10 ${isDark ? 'text-gray-400' : 'text-slate-500'}`}>$</span>
                   <Input
                     type="text"
-                    value={binanceRate ? realUsd.toFixed(2) : '---'}
-                    isReadOnly
+                    value={realValues.realUsd}
+                    onChange={(e) => handleRealInputChange('realUsd', e.target.value)}
                     className={`${inputClasses} text-lg font-medium h-12`}
                     classNames={{
                       input: 'pl-10 h-full !outline-none !ring-0',
@@ -314,8 +386,8 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
                   <span className={`absolute left-4 top-1/2 -translate-y-1/2 font-bold z-10 ${isDark ? 'text-gray-400' : 'text-slate-500'}`}>€</span>
                   <Input
                     type="text"
-                    value={binanceRate && eurUsdRate ? realEur.toFixed(2) : '---'}
-                    isReadOnly
+                    value={realValues.realEur}
+                    onChange={(e) => handleRealInputChange('realEur', e.target.value)}
                     className={`${inputClasses} text-lg font-medium h-12`}
                     classNames={{
                       input: 'pl-10 h-full !outline-none !ring-0',
