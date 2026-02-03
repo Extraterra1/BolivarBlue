@@ -77,12 +77,12 @@ export default function InstallPrompt() {
               </div>
               <div>
                 <h3 className="font-bold text-white">Install BolivarBlue</h3>
-                <p className="text-xs text-gray-400">Get the native app experience</p>
+                <p className="text-xs text-gray-300">Get the native app experience</p>
               </div>
             </div>
             <button
               onClick={handleDismiss}
-              className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-white/10 transition-colors"
+              className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-gray-300 hover:bg-white/10 transition-colors"
             >
               <FaTimes className="text-sm" />
             </button>
@@ -95,13 +95,13 @@ export default function InstallPrompt() {
                   <div className="w-6 h-6 rounded-full bg-venezuela-yellow/20 text-venezuela-yellow flex items-center justify-center text-xs font-bold">
                     {index + 1}
                   </div>
-                  <p className="text-sm text-gray-300">{step}</p>
+                  <p className="text-sm text-gray-200">{step}</p>
                 </div>
               ))}
             </div>
           ) : (
             <div className="mb-4">
-                <p className="text-sm text-gray-300 mb-2">
+                <p className="text-sm text-gray-200 mb-2">
                   Install BolivarBlue on your device for quick access and offline support.
                 </p>
             </div>

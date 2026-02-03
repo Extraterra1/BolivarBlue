@@ -14,7 +14,7 @@ export default function SpreadIndicator({ bcvRate, binanceRate }) {
   const sign = spread > 0 ? '+' : '';
 
   const containerClasses = isDark
-    ? 'bg-white/5 border-white/10 text-gray-200'
+    ? 'bg-white/5 border-white/10 text-gray-100'
     : 'bg-[#00247D]/5 border-[#00247D]/15 text-slate-700';
 
   const accentClasses = isPositive

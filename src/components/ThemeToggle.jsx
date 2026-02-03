@@ -35,7 +35,7 @@ export default function ThemeToggle({ className = '' }) {
           className={`
             absolute inset-0 w-full h-full
             transition-all duration-300
-            ${theme === 'dark' ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-0'}
+            ${theme === 'dark' ? 'opacity-100 rotate-0 scale-100 text-white' : 'opacity-0 -rotate-90 scale-0'}
           `}
         />
       </div>

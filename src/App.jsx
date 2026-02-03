@@ -1,6 +1,6 @@
 import { useState, useEffect, lazy, Suspense } from 'react';
 import { FaWifi, FaBan } from 'react-icons/fa';
-import { ThemeProvider } from './context/ThemeContext';
+import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { useLanguage } from './context/LanguageContext';
 import ThemeToggle from './components/ThemeToggle';
 import LanguageToggle from './components/LanguageToggle';
@@ -21,6 +21,8 @@ function AppContent() {
   const [loading, setLoading] = useState(true);
   const { isOnline, wasOffline } = useOnlineStatus();
   const { t } = useLanguage();
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   useEffect(() => {
     const loadData = async () => {
@@ -52,9 +54,9 @@ function AppContent() {
     <div className="relative min-h-screen w-full overflow-hidden transition-colors duration-300">
       {/* Background Effects - Theme Aware */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
-        <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full blur-[120px] bg-blue-500/10 dark:bg-blue-500/10 bg-[#00247D]/5" />
-        <div className="absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] rounded-full blur-[120px] bg-blue-600/10 dark:bg-blue-600/10 bg-[#00247D]/5" />
-        <div className="absolute top-[40%] left-[50%] transform -translate-x-1/2 w-[300px] h-[300px] rounded-full blur-[100px] bg-blue-700/10 dark:bg-blue-700/10 bg-[#FFCC00]/5" />
+        <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full blur-[120px] bg-blue-500/10 dark:bg-sky-400/10 bg-[#00247D]/5" />
+        <div className="absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] rounded-full blur-[120px] bg-blue-600/10 dark:bg-sky-500/10 bg-[#00247D]/5" />
+        <div className="absolute top-[40%] left-[50%] transform -translate-x-1/2 w-[300px] h-[300px] rounded-full blur-[100px] bg-blue-700/10 dark:bg-amber-300/10 bg-[#FFCC00]/5" />
       </div>
 
       <div className="relative z-10 container mx-auto px-4 py-8 flex flex-col items-center justify-center min-h-screen">
@@ -81,10 +83,14 @@ function AppContent() {
 
         {/* Header */}
         <header className="mb-12 text-center">
-          <h1 className="text-5xl md:text-7xl font-black mb-2 tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-[#00247D] to-[#d4a017] dark:from-white dark:via-gray-200 dark:to-gray-500">
-            Bolivar<span className="text-[#00247D] dark:text-blue-500">Blue</span>
+          <h1
+            className={`text-5xl md:text-7xl font-black mb-2 tracking-tighter bg-clip-text text-transparent bg-gradient-to-r ${
+              isDark ? 'from-slate-300 via-[#2563EB] to-[#1B2D6B]' : 'from-slate-900 via-[#00247D] to-[#d4a017]'
+            }`}
+          >
+            Bolivar<span className={isDark ? 'text-blue-300' : 'text-[#00247D]'}>Blue</span>
           </h1>
-          <p className="text-slate-600 dark:text-gray-400 text-lg max-w-md mx-auto">{t('appSubtitle')}</p>
+          <p className="text-slate-600 dark:text-gray-300 text-lg max-w-md mx-auto">{t('appSubtitle')}</p>
         </header>
 
         {/* content */}

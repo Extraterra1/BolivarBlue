@@ -187,29 +187,27 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
 
   // Theme-aware classes
   const containerClasses = isDark
-    ? 'bg-gradient-to-br from-gray-800/50 to-gray-900/50 border-white/10'
+    ? 'bg-gradient-to-br from-[#111c2f]/70 to-[#0b1324]/80 border-white/15'
     : 'bg-gradient-to-br from-white to-slate-50 border-[#00247D]/15 shadow-xl';
 
   const inputClasses = isDark
-    ? 'bg-gray-800/50 border-white/20 text-white placeholder:text-gray-500 focus:bg-gray-800 focus:border-blue-500'
+    ? 'bg-[#0f1b2d]/90 border-white/25 text-white placeholder:text-slate-300 focus:bg-[#0f1b2d] focus:border-sky-400'
     : 'bg-white border-[#00247D]/20 text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-[#00247D]';
 
   const labelClasses = isDark
-    ? 'text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 block'
+    ? 'text-xs font-bold text-gray-300 uppercase tracking-wider mb-2 block'
     : 'text-xs font-bold text-[#00247D] uppercase tracking-wider mb-2 block';
 
-  const helperClasses = isDark ? 'mt-2 text-[11px] text-gray-500' : 'mt-2 text-[11px] text-slate-500';
+  const helperClasses = isDark ? 'mt-2 text-[11px] text-gray-400' : 'mt-2 text-[11px] text-slate-500';
 
   const titleClasses = isDark ? 'text-2xl font-bold text-white mb-6 text-center' : 'text-2xl font-bold text-slate-900 mb-6 text-center';
 
-  const infoClasses = isDark ? 'text-center text-gray-500 text-xs mt-6' : 'text-center text-slate-500 text-xs mt-6';
+  const infoClasses = isDark ? 'text-center text-gray-400 text-xs mt-6' : 'text-center text-slate-500 text-xs mt-6';
 
   const tabBaseClasses = 'px-4 py-2 text-sm font-bold uppercase tracking-wider rounded-full transition-colors border';
-  const tabActiveClasses = isDark
-    ? 'bg-white/10 border-white/20 text-white'
-    : 'bg-[#00247D]/10 border-[#00247D]/20 text-[#00247D]';
+  const tabActiveClasses = isDark ? 'bg-white/10 border-white/20 text-white' : 'bg-[#00247D]/10 border-[#00247D]/20 text-[#00247D]';
   const tabInactiveClasses = isDark
-    ? 'bg-transparent border-white/10 text-gray-400 hover:text-white'
+    ? 'bg-transparent border-white/10 text-gray-300 hover:text-white'
     : 'bg-transparent border-[#00247D]/10 text-slate-500 hover:text-[#00247D]';
 
   return (
@@ -283,7 +281,7 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
               <div>
                 <label className={labelClasses}>{t('bsBcvLabel')}</label>
                 <div className="relative h-12">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#00247D] font-bold z-10">Bs.</span>
+                  <span className={`absolute left-4 top-1/2 -translate-y-1/2 font-bold z-10 ${isDark ? 'text-slate-200' : 'text-[#00247D]'}`}>Bs.</span>
                   <Input
                     type="text"
                     value={values.bsBcv}
@@ -348,7 +346,7 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
               <div>
                 <label className={labelClasses}>{t('bcvBsLabel')}</label>
                 <div className="relative h-12">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#00247D] font-bold z-10">Bs.</span>
+                  <span className={`absolute left-4 top-1/2 -translate-y-1/2 font-bold z-10 ${isDark ? 'text-slate-200' : 'text-[#00247D]'}`}>Bs.</span>
                   <Input
                     type="text"
                     value={realValues.bcvBs}

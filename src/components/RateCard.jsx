@@ -14,11 +14,11 @@ export default function RateCard({ title, rate, provider, color, logo, trend }) 
 
   // Theme-aware color classes
   const cardClasses = isDark
-    ? 'bg-gradient-to-br from-gray-800 to-gray-950 border-white/20'
+    ? 'bg-gradient-to-br from-[#111c2f] to-[#0b1324] border-white/20'
     : 'bg-gradient-to-br from-white to-slate-50 border-[#00247D]/15 shadow-lg';
 
   const titleClasses = isDark ? 'text-white' : 'text-slate-900';
-  const providerClasses = isDark ? 'text-gray-300' : 'text-slate-600';
+  const providerClasses = isDark ? 'text-gray-200' : 'text-slate-600';
   const dividerClasses = isDark ? 'bg-white/20' : 'bg-[#00247D]/10';
   const rateClasses = isDark ? 'text-white' : 'text-slate-900';
 
@@ -40,7 +40,7 @@ export default function RateCard({ title, rate, provider, color, logo, trend }) 
     if (color === 'venezuela-yellow') {
       return isDark ? 'text-yellow-400' : 'text-[#d4a017]';
     }
-    return isDark ? 'text-gray-400' : 'text-slate-600';
+    return isDark ? 'text-gray-300' : 'text-slate-600';
   };
 
   return (
@@ -80,7 +80,7 @@ export default function RateCard({ title, rate, provider, color, logo, trend }) 
                       ? 'text-red-400'
                       : 'text-red-600'
                     : isDark
-                      ? 'text-gray-400'
+                      ? 'text-gray-300'
                       : 'text-gray-500'
               }`}
             >
