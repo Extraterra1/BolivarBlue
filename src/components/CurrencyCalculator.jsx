@@ -198,6 +198,8 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
     ? 'text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 block'
     : 'text-xs font-bold text-[#00247D] uppercase tracking-wider mb-2 block';
 
+  const helperClasses = isDark ? 'mt-2 text-[11px] text-gray-500' : 'mt-2 text-[11px] text-slate-500';
+
   const titleClasses = isDark ? 'text-2xl font-bold text-white mb-6 text-center' : 'text-2xl font-bold text-slate-900 mb-6 text-center';
 
   const infoClasses = isDark ? 'text-center text-gray-500 text-xs mt-6' : 'text-center text-slate-500 text-xs mt-6';
@@ -340,6 +342,7 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
                     size="lg"
                   />
                 </div>
+                <p className={helperClasses}>{t('realHelperBcvUsd')}</p>
               </div>
 
               <div>
@@ -359,6 +362,7 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
                     size="lg"
                   />
                 </div>
+                <p className={helperClasses}>{t('realHelperBcvBs')}</p>
               </div>
 
               <div>
@@ -378,6 +382,7 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
                     size="lg"
                   />
                 </div>
+                <p className={helperClasses}>{t('realHelperRealUsd')}</p>
               </div>
 
               <div>
@@ -397,6 +402,7 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
                     size="lg"
                   />
                 </div>
+                <p className={helperClasses}>{t('realHelperRealEur')}</p>
               </div>
             </div>
 

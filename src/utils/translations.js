@@ -24,6 +24,10 @@ export const translations = {
     realUsdLabel: 'USD (Real)',
     realEurLabel: 'EUR (Real)',
     realCalculatorInfo: 'Calcula cuánto USD/EUR real necesitas para obtener Bs. al BCV',
+    realHelperBcvUsd: 'Monto en USD usando la tasa BCV',
+    realHelperBcvBs: 'Bolívares resultantes a tasa BCV',
+    realHelperRealUsd: 'USD real requerido al precio Binance',
+    realHelperRealEur: 'EUR real equivalente al precio Binance',
 
     // Offline/Online indicators
     offline: 'Usando datos en caché • Sin conexión',
@@ -67,6 +71,10 @@ export const translations = {
     realUsdLabel: 'USD (Real)',
     realEurLabel: 'EUR (Real)',
     realCalculatorInfo: 'See how much real USD/EUR you need to match Bs. at the BCV rate',
+    realHelperBcvUsd: 'USD amount using the BCV rate',
+    realHelperBcvBs: 'Bolivares produced at the BCV rate',
+    realHelperRealUsd: 'Real USD needed at Binance price',
+    realHelperRealEur: 'Real EUR equivalent at Binance price',
 
     // Offline/Online indicators
     offline: 'Using cached data • Offline',
