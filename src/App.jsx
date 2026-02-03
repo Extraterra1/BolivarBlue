@@ -61,7 +61,7 @@ function AppContent() {
 
       <div className="relative z-10 container mx-auto px-4 py-8 flex flex-col items-center justify-center min-h-screen">
         {/* Toggles */}
-        <div className="absolute top-6 left-4 right-4 md:left-8 md:right-8 flex items-center justify-between z-20">
+        <div className="absolute top-6 left-4 right-4 md:left-auto md:right-8 flex items-center justify-between md:justify-end md:gap-2 z-20">
           <LanguageToggle />
           <ThemeToggle />
         </div>
