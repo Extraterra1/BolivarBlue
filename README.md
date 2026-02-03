@@ -19,7 +19,12 @@
 - 🌓 **Dynamic Theming**: Seamless switching between **Light** and **Dark** modes.
 - 🧮 **Currency Converter**: Built-in calculator to convert between USD, EUR, and Bs. (BCV/Binance).
 - 📶 **Offline Compatibility**: Works without an internet connection using cached data.
+- ⚡ **Instant Cached Rates**: Loads cached data immediately with background refresh (localStorage + TTL).
 - 🎨 **Premium UI**: Crafted with HeroUI (formerly NextUI) and Framer Motion for smooth animations and transitions.
+- 📊 **Spread Indicator**: Highlights the % and absolute spread between BCV and Binance rates.
+- 🧊 **Skeleton Loading**: Clean loading placeholders while fresh rates are fetched.
+- 📴 **Connectivity Alerts**: Clear banners when you go offline and when you're back online.
+- 📥 **Smart Install Prompt**: Android install CTA and iOS “Add to Home Screen” guidance.
 
 ## 🛠️ Tech Stack
 
