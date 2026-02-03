@@ -22,6 +22,10 @@ export const translations = {
     offline: 'Usando datos en caché • Sin conexión',
     backOnline: 'De vuelta en línea',
 
+    // Spread indicator
+    spreadLabel: 'Diferencia',
+    spreadVs: 'Binance vs BCV',
+
     // Errors
     errorFetching: 'Error al obtener datos',
     errorBcv: 'Error al obtener tasa BCV',
@@ -53,6 +57,10 @@ export const translations = {
     // Offline/Online indicators
     offline: 'Using cached data • Offline',
     backOnline: 'Back online',
+
+    // Spread indicator
+    spreadLabel: 'Spread',
+    spreadVs: 'Binance vs BCV',
 
     // Errors
     errorFetching: 'Error fetching data',

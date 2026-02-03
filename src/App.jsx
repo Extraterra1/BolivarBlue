@@ -7,6 +7,7 @@ import LanguageToggle from './components/LanguageToggle';
 import RateCard from './components/RateCard';
 import SkeletonRateCard from './components/SkeletonRateCard';
 import CurrencyCalculator from './components/CurrencyCalculator';
+import SpreadIndicator from './components/SpreadIndicator';
 import { fetchBCVRate, fetchBinanceRate } from './services/api';
 import { useOnlineStatus } from './hooks/useOnlineStatus';
 import { cacheRates, getCachedRates } from './utils/cache';
@@ -106,6 +107,8 @@ function AppContent() {
             </>
           )}
         </div>
+
+        <SpreadIndicator bcvRate={bcvRate} binanceRate={binanceRate} />
 
         {/* Currency Calculator */}
         <CurrencyCalculator bcvRate={bcvRate} binanceRate={binanceRate} />
