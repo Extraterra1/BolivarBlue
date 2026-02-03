@@ -12,11 +12,18 @@ export const translations = {
 
     // Currency Calculator
     calculatorTitle: 'Conversor de Moneda',
+    calculatorTabConvert: 'Convertir',
+    calculatorTabReal: 'Real',
     usdLabel: 'USD',
     eurLabel: 'EUR',
     bsBcvLabel: 'Bs. (BCV)',
     bsBinanceLabel: 'Bs. (Binance)',
     calculatorInfo: 'Ingresa cualquier valor arriba para convertir entre monedas',
+    bcvUsdLabel: 'USD (BCV)',
+    bcvBsLabel: 'Bs. (BCV)',
+    realUsdLabel: 'USD (Real)',
+    realEurLabel: 'EUR (Real)',
+    realCalculatorInfo: 'Calcula cuánto USD/EUR real necesitas para obtener Bs. al BCV',
 
     // Offline/Online indicators
     offline: 'Usando datos en caché • Sin conexión',
@@ -48,11 +55,18 @@ export const translations = {
 
     // Currency Calculator
     calculatorTitle: 'Currency Converter',
+    calculatorTabConvert: 'Convert',
+    calculatorTabReal: 'Real',
     usdLabel: 'USD',
     eurLabel: 'EUR',
     bsBcvLabel: 'Bs. (BCV)',
     bsBinanceLabel: 'Bs. (Binance)',
     calculatorInfo: 'Enter any value above to convert between currencies',
+    bcvUsdLabel: 'USD (BCV)',
+    bcvBsLabel: 'Bs. (BCV)',
+    realUsdLabel: 'USD (Real)',
+    realEurLabel: 'EUR (Real)',
+    realCalculatorInfo: 'See how much real USD/EUR you need to match Bs. at the BCV rate',
 
     // Offline/Online indicators
     offline: 'Using cached data • Offline',

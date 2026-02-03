@@ -9,6 +9,7 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
   const { t } = useLanguage();
   const isDark = theme === 'dark';
 
+  const [activeTab, setActiveTab] = useState('convert');
   const [eurUsdRate, setEurUsdRate] = useState(null);
   const [values, setValues] = useState({
     usd: '1',
@@ -16,6 +17,7 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
     bsBcv: '',
     bsBinance: ''
   });
+  const [bcvUsdValue, setBcvUsdValue] = useState('1');
 
   // Fetch EUR/USD rate
   useEffect(() => {
@@ -101,6 +103,11 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
     }
   };
 
+  const handleBcvUsdChange = (value) => {
+    if (value && !/^\d*\.?\d*$/.test(value)) return;
+    setBcvUsdValue(value);
+  };
+
   // Theme-aware classes
   const containerClasses = isDark
     ? 'bg-gradient-to-br from-gray-800/50 to-gray-900/50 border-white/10'
@@ -118,95 +125,212 @@ export default function CurrencyCalculator({ bcvRate, binanceRate }) {
 
   const infoClasses = isDark ? 'text-center text-gray-500 text-xs mt-6' : 'text-center text-slate-500 text-xs mt-6';
 
+  const tabBaseClasses = 'px-4 py-2 text-sm font-bold uppercase tracking-wider rounded-full transition-colors border';
+  const tabActiveClasses = isDark
+    ? 'bg-white/10 border-white/20 text-white'
+    : 'bg-[#00247D]/10 border-[#00247D]/20 text-[#00247D]';
+  const tabInactiveClasses = isDark
+    ? 'bg-transparent border-white/10 text-gray-400 hover:text-white'
+    : 'bg-transparent border-[#00247D]/10 text-slate-500 hover:text-[#00247D]';
+
+  const bcvUsd = parseFloat(bcvUsdValue) || 0;
+  const bcvBs = bcvRate ? bcvUsd * bcvRate : 0;
+  const realUsd = binanceRate ? bcvBs / binanceRate : 0;
+  const realEur = eurUsdRate ? realUsd / eurUsdRate : 0;
+
   return (
     <div className="w-full max-w-4xl mt-12">
       <div className={`${containerClasses} rounded-xl p-6 md:p-8 backdrop-blur-sm border`}>
         <h2 className={titleClasses}>{t('calculatorTitle')}</h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* USD Input */}
-          <div>
-            <label className={labelClasses}>{t('usdLabel')}</label>
-            <div className="relative h-12">
-              <span className={`absolute left-4 top-1/2 -translate-y-1/2 font-bold z-10 ${isDark ? 'text-gray-400' : 'text-slate-500'}`}>$</span>
-              <Input
-                type="text"
-                value={values.usd}
-                onChange={(e) => handleInputChange('usd', e.target.value)}
-                className={`${inputClasses} text-lg font-medium h-12`}
-                classNames={{
-                  input: 'pl-10 h-full !outline-none !ring-0',
-                  inputWrapper: '!ring-0 !ring-offset-0 !outline-none !shadow-none'
-                }}
-                placeholder="0.00"
-                size="lg"
-              />
-            </div>
-          </div>
-
-          {/* EUR Input */}
-          <div>
-            <label className={labelClasses}>{t('eurLabel')}</label>
-            <div className="relative h-12">
-              <span className={`absolute left-4 top-1/2 -translate-y-1/2 font-bold z-10 ${isDark ? 'text-gray-400' : 'text-slate-500'}`}>€</span>
-              <Input
-                type="text"
-                value={values.eur}
-                onChange={(e) => handleInputChange('eur', e.target.value)}
-                className={`${inputClasses} text-lg font-medium h-12`}
-                classNames={{
-                  input: 'pl-10 h-full !outline-none !ring-0',
-                  inputWrapper: '!ring-0 !ring-offset-0 !outline-none !shadow-none'
-                }}
-                placeholder="0.00"
-                size="lg"
-              />
-            </div>
-          </div>
-
-          {/* Bs. BCV Input */}
-          <div>
-            <label className={labelClasses}>{t('bsBcvLabel')}</label>
-            <div className="relative h-12">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#00247D] font-bold z-10">Bs.</span>
-              <Input
-                type="text"
-                value={values.bsBcv}
-                onChange={(e) => handleInputChange('bsBcv', e.target.value)}
-                className={`${inputClasses} text-lg font-medium h-12`}
-                classNames={{
-                  input: 'pl-12 h-full !outline-none !ring-0',
-                  inputWrapper: '!ring-0 !ring-offset-0 !outline-none !shadow-none'
-                }}
-                placeholder="0.00"
-                size="lg"
-              />
-            </div>
-          </div>
-
-          {/* Bs. Binance Input */}
-          <div>
-            <label className={labelClasses}>{t('bsBinanceLabel')}</label>
-            <div className="relative h-12">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#d4a017] font-bold z-10">Bs.</span>
-              <Input
-                type="text"
-                value={values.bsBinance}
-                onChange={(e) => handleInputChange('bsBinance', e.target.value)}
-                className={`${inputClasses} text-lg font-medium h-12`}
-                classNames={{
-                  input: 'pl-12 h-full !outline-none !ring-0',
-                  inputWrapper: '!ring-0 !ring-offset-0 !outline-none !shadow-none'
-                }}
-                placeholder="0.00"
-                size="lg"
-              />
-            </div>
-          </div>
+        <div className="flex items-center justify-center gap-2 mb-6">
+          <button
+            type="button"
+            aria-pressed={activeTab === 'convert'}
+            onClick={() => setActiveTab('convert')}
+            className={`${tabBaseClasses} ${activeTab === 'convert' ? tabActiveClasses : tabInactiveClasses}`}
+          >
+            {t('calculatorTabConvert')}
+          </button>
+          <button
+            type="button"
+            aria-pressed={activeTab === 'real'}
+            onClick={() => setActiveTab('real')}
+            className={`${tabBaseClasses} ${activeTab === 'real' ? tabActiveClasses : tabInactiveClasses}`}
+          >
+            {t('calculatorTabReal')}
+          </button>
         </div>
 
-        {/* Info text */}
-        <p className={infoClasses}>{t('calculatorInfo')}</p>
+        {activeTab === 'convert' ? (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* USD Input */}
+              <div>
+                <label className={labelClasses}>{t('usdLabel')}</label>
+                <div className="relative h-12">
+                  <span className={`absolute left-4 top-1/2 -translate-y-1/2 font-bold z-10 ${isDark ? 'text-gray-400' : 'text-slate-500'}`}>$</span>
+                  <Input
+                    type="text"
+                    value={values.usd}
+                    onChange={(e) => handleInputChange('usd', e.target.value)}
+                    className={`${inputClasses} text-lg font-medium h-12`}
+                    classNames={{
+                      input: 'pl-10 h-full !outline-none !ring-0',
+                      inputWrapper: '!ring-0 !ring-offset-0 !outline-none !shadow-none'
+                    }}
+                    placeholder="0.00"
+                    size="lg"
+                  />
+                </div>
+              </div>
+
+              {/* EUR Input */}
+              <div>
+                <label className={labelClasses}>{t('eurLabel')}</label>
+                <div className="relative h-12">
+                  <span className={`absolute left-4 top-1/2 -translate-y-1/2 font-bold z-10 ${isDark ? 'text-gray-400' : 'text-slate-500'}`}>€</span>
+                  <Input
+                    type="text"
+                    value={values.eur}
+                    onChange={(e) => handleInputChange('eur', e.target.value)}
+                    className={`${inputClasses} text-lg font-medium h-12`}
+                    classNames={{
+                      input: 'pl-10 h-full !outline-none !ring-0',
+                      inputWrapper: '!ring-0 !ring-offset-0 !outline-none !shadow-none'
+                    }}
+                    placeholder="0.00"
+                    size="lg"
+                  />
+                </div>
+              </div>
+
+              {/* Bs. BCV Input */}
+              <div>
+                <label className={labelClasses}>{t('bsBcvLabel')}</label>
+                <div className="relative h-12">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#00247D] font-bold z-10">Bs.</span>
+                  <Input
+                    type="text"
+                    value={values.bsBcv}
+                    onChange={(e) => handleInputChange('bsBcv', e.target.value)}
+                    className={`${inputClasses} text-lg font-medium h-12`}
+                    classNames={{
+                      input: 'pl-12 h-full !outline-none !ring-0',
+                      inputWrapper: '!ring-0 !ring-offset-0 !outline-none !shadow-none'
+                    }}
+                    placeholder="0.00"
+                    size="lg"
+                  />
+                </div>
+              </div>
+
+              {/* Bs. Binance Input */}
+              <div>
+                <label className={labelClasses}>{t('bsBinanceLabel')}</label>
+                <div className="relative h-12">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#d4a017] font-bold z-10">Bs.</span>
+                  <Input
+                    type="text"
+                    value={values.bsBinance}
+                    onChange={(e) => handleInputChange('bsBinance', e.target.value)}
+                    className={`${inputClasses} text-lg font-medium h-12`}
+                    classNames={{
+                      input: 'pl-12 h-full !outline-none !ring-0',
+                      inputWrapper: '!ring-0 !ring-offset-0 !outline-none !shadow-none'
+                    }}
+                    placeholder="0.00"
+                    size="lg"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <p className={infoClasses}>{t('calculatorInfo')}</p>
+          </>
+        ) : (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className={labelClasses}>{t('bcvUsdLabel')}</label>
+                <div className="relative h-12">
+                  <span className={`absolute left-4 top-1/2 -translate-y-1/2 font-bold z-10 ${isDark ? 'text-gray-400' : 'text-slate-500'}`}>$</span>
+                  <Input
+                    type="text"
+                    value={bcvUsdValue}
+                    onChange={(e) => handleBcvUsdChange(e.target.value)}
+                    className={`${inputClasses} text-lg font-medium h-12`}
+                    classNames={{
+                      input: 'pl-10 h-full !outline-none !ring-0',
+                      inputWrapper: '!ring-0 !ring-offset-0 !outline-none !shadow-none'
+                    }}
+                    placeholder="0.00"
+                    size="lg"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className={labelClasses}>{t('bcvBsLabel')}</label>
+                <div className="relative h-12">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#00247D] font-bold z-10">Bs.</span>
+                  <Input
+                    type="text"
+                    value={bcvRate ? bcvBs.toFixed(2) : '---'}
+                    isReadOnly
+                    className={`${inputClasses} text-lg font-medium h-12`}
+                    classNames={{
+                      input: 'pl-12 h-full !outline-none !ring-0',
+                      inputWrapper: '!ring-0 !ring-offset-0 !outline-none !shadow-none'
+                    }}
+                    placeholder="0.00"
+                    size="lg"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className={labelClasses}>{t('realUsdLabel')}</label>
+                <div className="relative h-12">
+                  <span className={`absolute left-4 top-1/2 -translate-y-1/2 font-bold z-10 ${isDark ? 'text-gray-400' : 'text-slate-500'}`}>$</span>
+                  <Input
+                    type="text"
+                    value={binanceRate ? realUsd.toFixed(2) : '---'}
+                    isReadOnly
+                    className={`${inputClasses} text-lg font-medium h-12`}
+                    classNames={{
+                      input: 'pl-10 h-full !outline-none !ring-0',
+                      inputWrapper: '!ring-0 !ring-offset-0 !outline-none !shadow-none'
+                    }}
+                    placeholder="0.00"
+                    size="lg"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className={labelClasses}>{t('realEurLabel')}</label>
+                <div className="relative h-12">
+                  <span className={`absolute left-4 top-1/2 -translate-y-1/2 font-bold z-10 ${isDark ? 'text-gray-400' : 'text-slate-500'}`}>€</span>
+                  <Input
+                    type="text"
+                    value={binanceRate && eurUsdRate ? realEur.toFixed(2) : '---'}
+                    isReadOnly
+                    className={`${inputClasses} text-lg font-medium h-12`}
+                    classNames={{
+                      input: 'pl-10 h-full !outline-none !ring-0',
+                      inputWrapper: '!ring-0 !ring-offset-0 !outline-none !shadow-none'
+                    }}
+                    placeholder="0.00"
+                    size="lg"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <p className={infoClasses}>{t('realCalculatorInfo')}</p>
+          </>
+        )}
       </div>
     </div>
   );
