@@ -16,14 +16,13 @@ const USFlag = () => (
   </svg>
 );
 
-export default function LanguageToggle() {
+export default function LanguageToggle({ className = '' }) {
   const { language, toggleLanguage, isSpanish } = useLanguage();
 
   return (
     <button
       onClick={toggleLanguage}
-      className="
-        fixed top-4 right-20 z-50
+      className={`
         w-12 h-12 rounded-full
         bg-white/10 dark:bg-black/20
         backdrop-blur-md
@@ -35,7 +34,8 @@ export default function LanguageToggle() {
         shadow-lg
         focus:outline-none focus:ring-2 focus:ring-blue-500/50
         overflow-hidden
-      "
+        ${className}
+      `}
       aria-label={`Switch to ${isSpanish ? 'English' : 'Spanish'}`}
       title={isSpanish ? 'Switch to English' : 'Cambiar a Español'}
     >

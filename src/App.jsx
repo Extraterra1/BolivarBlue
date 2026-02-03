@@ -57,11 +57,12 @@ function AppContent() {
         <div className="absolute top-[40%] left-[50%] transform -translate-x-1/2 w-[300px] h-[300px] rounded-full blur-[100px] bg-blue-700/10 dark:bg-blue-700/10 bg-[#FFCC00]/5" />
       </div>
 
-      {/* Toggles */}
-      <ThemeToggle />
-      <LanguageToggle />
-
       <div className="relative z-10 container mx-auto px-4 py-8 flex flex-col items-center justify-center min-h-screen">
+        {/* Toggles */}
+        <div className="absolute top-6 left-4 right-4 md:left-8 md:right-8 flex items-center justify-between z-20">
+          <LanguageToggle />
+          <ThemeToggle />
+        </div>
         {/* Offline Indicator */}
         {!isOnline && (
           <div className="fixed top-[max(1rem,env(safe-area-inset-top))] left-1/2 -translate-x-1/2 z-40 bg-yellow-500/95 text-black px-4 py-2 rounded-full text-sm font-bold backdrop-blur-sm shadow-lg flex items-center gap-2">

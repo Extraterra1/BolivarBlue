@@ -1,14 +1,13 @@
 import { useTheme } from '../context/ThemeContext';
 import { FaSun, FaMoon } from 'react-icons/fa';
 
-export default function ThemeToggle() {
+export default function ThemeToggle({ className = '' }) {
   const { theme, toggleTheme } = useTheme();
 
   return (
     <button
       onClick={toggleTheme}
-      className="
-        fixed top-4 right-4 z-50
+      className={`
         w-12 h-12 rounded-full
         bg-white/10 dark:bg-black/20
         backdrop-blur-md
@@ -20,7 +19,8 @@ export default function ThemeToggle() {
         transition-all duration-300 ease-out
         shadow-lg
         focus:outline-none focus:ring-2 focus:ring-venezuela-blue/50
-      "
+        ${className}
+      `}
       aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
     >
       <div className="relative w-6 h-6">
